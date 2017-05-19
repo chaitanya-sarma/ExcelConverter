@@ -2,6 +2,7 @@ package excelReader.excelReader;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,9 +11,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Iterator;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import java.awt.Color;
 
@@ -31,7 +34,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.swing.ImageIcon;
 
-public class Application {
+public class Application extends Frame {
 
 	private JFrame frame;
 
@@ -74,7 +77,7 @@ public class Application {
 		frame.getContentPane().add(lblFile);
 
 		final JTextField textField = new JTextField();
-		textField.setBounds(141, 144, 433, 20);
+		textField.setBounds(141, 144, 334, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 
@@ -96,9 +99,26 @@ public class Application {
 		JLabel lblhornysaze = new JLabel("@hornySaze");
 		lblhornysaze.setBounds(10, 336, 101, 14);
 		frame.getContentPane().add(lblhornysaze);
+		
+		JButton btnBrowse = new JButton("Browse");
+		btnBrowse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser();
+				buttonActionPerformed(arg0, textField,fileChooser);      	
+			}
+		});
+		btnBrowse.setBounds(485, 143, 89, 23);
+		frame.getContentPane().add(btnBrowse);
 
 	}
 
+	private void buttonActionPerformed(ActionEvent evt, JTextField fileName, JFileChooser fileChooser) {
+        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            fileName.setText(fileChooser.getSelectedFile().getAbsolutePath());
+        }
+}
+
+	
 	public static void convert(String fileName) {
 		String outputFile = fileName.substring(0, fileName.lastIndexOf(".")) + "_processed"
 				+ fileName.substring(fileName.lastIndexOf("."));
@@ -150,14 +170,14 @@ public class Application {
 	}
 
 	public void addIcrisatLogo() {
-
-		File resourceDest = new File("src/main/resources");
-		String iconLocation = resourceDest.getAbsolutePath() + "\\icrisat.png";
 		JLabel icrisatLogoLabel = new JLabel("");
-		ImageIcon icon = new ImageIcon(
-				new ImageIcon(iconLocation).getImage().getScaledInstance(150, 50, Image.SCALE_DEFAULT));
-		icrisatLogoLabel.setIcon(icon);
-		icrisatLogoLabel.setBounds(407, 286, 167, 50);
-		frame.getContentPane().add(icrisatLogoLabel);
+		
+		URL url = Application.class.getResource("icrisat.png");
+		if(url != null){
+			ImageIcon icon = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(150, 50, Image.SCALE_DEFAULT));
+			icrisatLogoLabel.setIcon(icon);
+			icrisatLogoLabel.setBounds(407, 286, 167, 50);
+			frame.getContentPane().add(icrisatLogoLabel);
+		}
 	}
 }
