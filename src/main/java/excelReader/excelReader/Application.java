@@ -113,7 +113,7 @@ public class Application extends Frame {
 	}
 
 	private void buttonActionPerformed(ActionEvent evt, JTextField fileName, JFileChooser fileChooser) {
-        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             fileName.setText(fileChooser.getSelectedFile().getAbsolutePath());
         }
 }
